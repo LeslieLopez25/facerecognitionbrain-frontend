@@ -12,11 +12,11 @@ import Register from "./components/Register/Register";
 const particlesOptions = {
   particles: {
     color: {
-      value: "#36802d"
+      value: "hsl(192,100%,50%)"
     },
     line_linked: {
-      number: 200,
-      color: "#36802d",
+      number: 400,
+      color: "hsl(192,100%,50%)",
       density: {
         enable: true,
         value_area: 900
