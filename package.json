@@ -1,6 +1,5 @@
 {
   "name": "facerecognitionbrain",
-  "homepage": "http://.",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
