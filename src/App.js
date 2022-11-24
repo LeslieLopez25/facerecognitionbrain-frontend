@@ -9,6 +9,22 @@ import "./App.css";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
 
+// const particlesOptions = {
+//   particles: {
+//     color: {
+//       value: "hsl(192,100%,50%)",
+//     },
+//     line_linked: {
+//       number: 400,
+//       color: "hsl(192,100%,50%)",
+//       density: {
+//         enable: true,
+//         value_area: 900,
+//       },
+//     },
+//   },
+// };
+
 const initialState = {
   input: "",
   imageUrl: "",
@@ -105,73 +121,37 @@ class App extends Component {
   };
 
   render() {
-    let config = {
-      num: [4, 7],
-      rps: 0.1,
-      radius: [5, 40],
-      life: [1.5, 3],
-      v: [2, 3],
-      tha: [-40, 40],
-      alpha: [0.6, 0],
-      scale: [0.1, 0.4],
-      position: "all",
-      color: ["random", "#ff0000"],
-      cross: "dead",
-      // emitter: "follow",
-      random: 15,
-    };
-
-    if (Math.random() > 0.85) {
-      config = Object.assign(config, {
-        onParticleUpdate: (ctx, particle) => {
-          ctx.beginPath();
-          ctx.rect(
-            particle.p.x,
-            particle.p.y,
-            particle.radius * 2,
-            particle.radius * 2
-          );
-          ctx.fillStyle = particle.color;
-          ctx.fill();
-          ctx.closePath();
-        },
-      });
-
-      const { isSignedIn, imageUrl, route, box } = this.state;
-      return (
-        <div className="App">
-          <ParticlesBg type="custom" config={config} bg={true} />
-          <Navigation
-            isSignedIn={isSignedIn}
+    const { isSignedIn, imageUrl, route, box } = this.state;
+    return (
+      <div className="App">
+        <ParticlesBg type="random" bg={true} />
+        <Navigation
+          isSignedIn={isSignedIn}
+          onRouteChange={this.onRouteChange}
+        />
+        {route === "home" ? (
+          <div>
+            <Logo />
+            <Rank
+              name={this.state.user.name}
+              entries={this.state.user.entries}
+            />
+            <ImageLinkForm
+              onInputChange={this.onInputChange}
+              onButtonSubmit={this.onButtonSubmit}
+            />
+            <FaceRecognition box={box} imageUrl={imageUrl} />
+          </div>
+        ) : route === "signin" ? (
+          <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+        ) : (
+          <Register
+            loadUser={this.loadUser}
             onRouteChange={this.onRouteChange}
           />
-          {route === "home" ? (
-            <div>
-              <Logo />
-              <Rank
-                name={this.state.user.name}
-                entries={this.state.user.entries}
-              />
-              <ImageLinkForm
-                onInputChange={this.onInputChange}
-                onButtonSubmit={this.onButtonSubmit}
-              />
-              <FaceRecognition box={box} imageUrl={imageUrl} />
-            </div>
-          ) : route === "signin" ? (
-            <Signin
-              loadUser={this.loadUser}
-              onRouteChange={this.onRouteChange}
-            />
-          ) : (
-            <Register
-              loadUser={this.loadUser}
-              onRouteChange={this.onRouteChange}
-            />
-          )}
-        </div>
-      );
-    }
+        )}
+      </div>
+    );
   }
 }
 
