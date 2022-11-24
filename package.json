@@ -1,6 +1,6 @@
 {
   "name": "facerecognitionbrain",
-  "homepage": ".",
+  "homepage": "http://.",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,7 +10,6 @@
     "clarifai": "^2.9.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-particles-js": "^3.5.3",
     "react-scripts": "4.0.3",
     "react-tilt": "^0.1.4",
     "react-tsparticles": "^1.30.2",
@@ -41,5 +40,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "description": "<h1>Face Recognition Brain :adult:</h1>",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeslieLopez25/facerecognitionbrain-frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeslieLopez25/facerecognitionbrain-frontend/issues"
   }
 }
