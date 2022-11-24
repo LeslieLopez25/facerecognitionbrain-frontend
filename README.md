@@ -6,7 +6,7 @@
 
 ### Link
 
-- Live Site: [Face Recognition Brain](https://face-recognition-brain13.herokuapp.com/)
+- Live Site: [Face Recognition Brain](https://face-recognition-brain13.netlify.app/)
 
 ### Screenshots
 
