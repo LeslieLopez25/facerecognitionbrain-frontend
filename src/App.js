@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ParticlesBg from "particles-bg";
+import Particles from "react-particles-js";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
@@ -8,6 +8,22 @@ import Rank from "./components/Rank/Rank";
 import "./App.css";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
+
+const particlesOptions = {
+  particles: {
+    color: {
+      value: "hsl(192,100%,50%)",
+    },
+    line_linked: {
+      number: 400,
+      color: "hsl(192,100%,50%)",
+      density: {
+        enable: true,
+        value_area: 900,
+      },
+    },
+  },
+};
 
 const initialState = {
   input: "",
@@ -108,7 +124,7 @@ class App extends Component {
     const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
-        <ParticlesBg type="fountain" params={true} />
+        <Particles className="particles" params={particlesOptions} />
         <Navigation
           isSignedIn={isSignedIn}
           onRouteChange={this.onRouteChange}
