@@ -2,7 +2,7 @@
 
 <h2>A website that detects faces that you use using the image's url built using React.</h2>
 
-<p>This website is responsive using React. I created this following the web developer bootcamp of Andrei Neagoie on Udemy. This project uses frontend and backend with this part being the frontend. I enjoyed building this project. This project used Tachyons, which was the first I've used it to style the website and used an API to detect the images. Certain parts of the coding process were difficult but I definity learned more about React.</p>
+<p>This website is responsive using React. I created this following the web developer boot camp of Andrei Neagoie on Udemy. This project uses frontend and backend with this part being the frontend. I enjoyed building this project. This project used Tachyons, which was the first I've used it to style the website and used an API to detect the images. Certain parts of the coding process were difficult but I definitely learned more about React.</p>
 
 ### Link
 
