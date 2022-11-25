@@ -6,34 +6,34 @@ class Register extends React.Component {
     this.state = {
       email: "",
       password: "",
-      name: ""
+      name: "",
     };
   }
 
-  onNameChange = event => {
+  onNameChange = (event) => {
     this.setState({ name: event.target.value });
   };
 
-  onEmailChange = event => {
+  onEmailChange = (event) => {
     this.setState({ email: event.target.value });
   };
 
-  onPasswordChange = event => {
+  onPasswordChange = (event) => {
     this.setState({ password: event.target.value });
   };
 
   onSubmitSignIn = () => {
-    fetch("https://peaceful-harbor-39136.herokuapp.com/register", {
+    fetch("https://jealous-bee-hosiery.cyclic.app/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
-        name: this.state.name
-      })
+        name: this.state.name,
+      }),
     })
-      .then(response => response.json())
-      .then(user => {
+      .then((response) => response.json())
+      .then((user) => {
         if (user.id) {
           this.props.loadUser(user);
           this.props.onRouteChange("home");

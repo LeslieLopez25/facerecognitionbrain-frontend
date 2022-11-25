@@ -68,7 +68,7 @@ class App extends Component {
     this.setState({
       imageUrl: this.state.input,
     });
-    fetch("https://peaceful-harbor-39136.herokuapp.com/imageurl", {
+    fetch("https://jealous-bee-hosiery.cyclic.app/imageurl", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -78,7 +78,7 @@ class App extends Component {
       .then((response) => response.json())
       .then((response) => {
         if (response) {
-          fetch("https://peaceful-harbor-39136.herokuapp.com/image", {
+          fetch("https://jealous-bee-hosiery.cyclic.app/image", {
             method: "put",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
