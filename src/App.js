@@ -9,22 +9,6 @@ import "./App.css";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
 
-// const particlesOptions = {
-//   particles: {
-//     color: {
-//       value: "hsl(192,100%,50%)",
-//     },
-//     line_linked: {
-//       number: 400,
-//       color: "hsl(192,100%,50%)",
-//       density: {
-//         enable: true,
-//         value_area: 900,
-//       },
-//     },
-//   },
-// };
-
 const initialState = {
   input: "",
   imageUrl: "",
