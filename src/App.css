@@ -6,3 +6,7 @@
   display: flex;
   justify-content: center;
 }
+
+.particle-bg {
+  height: 100%;
+}
