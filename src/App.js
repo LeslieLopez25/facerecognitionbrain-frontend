@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Particles from "react-tsparticles";
+import ParticlesBg from "particles-bg";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
@@ -9,21 +9,21 @@ import "./App.css";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
 
-const particlesOptions = {
-  particles: {
-    color: {
-      value: "hsl(192,100%,50%)",
-    },
-    line_linked: {
-      number: 400,
-      color: "hsl(192,100%,50%)",
-      density: {
-        enable: true,
-        value_area: 900,
-      },
-    },
-  },
-};
+// const particlesOptions = {
+//   particles: {
+//     color: {
+//       value: "hsl(192,100%,50%)",
+//     },
+//     line_linked: {
+//       number: 400,
+//       color: "hsl(192,100%,50%)",
+//       density: {
+//         enable: true,
+//         value_area: 900,
+//       },
+//     },
+//   },
+// };
 
 const initialState = {
   input: "",
@@ -124,7 +124,7 @@ class App extends Component {
     const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
-        <Particles className="particles" params={particlesOptions} />
+        <ParticlesBg type="circle" bg={true} />
         <Navigation
           isSignedIn={isSignedIn}
           onRouteChange={this.onRouteChange}
