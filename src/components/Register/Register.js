@@ -23,7 +23,7 @@ class Register extends React.Component {
   };
 
   onSubmitSignIn = () => {
-    fetch("https://jealous-bee-hosiery.cyclic.app/register", {
+    fetch("https://cooperative-bat-teddy.cyclic.app/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
