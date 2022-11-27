@@ -12,3 +12,5 @@
 
 <img src="src/screenshots/img-1.png" width="400"><img src="src/screenshots/img-2.png" width="400">
 <img src="src/screenshots/img-3.png" width="400">
+
+(Backend database no longer in service, hosting sites and database hosting services need to be updated)
