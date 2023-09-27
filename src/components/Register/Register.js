@@ -23,7 +23,7 @@ class Register extends React.Component {
   };
 
   onSubmitSignIn = () => {
-    fetch("https://cooperative-bat-teddy.cyclic.app/register", {
+    fetch("https://facerecognitionbrain-api-ral3.onrender.com/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
