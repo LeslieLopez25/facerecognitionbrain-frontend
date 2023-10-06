@@ -42,21 +42,22 @@ class App extends Component {
     });
   };
 
-  calculateFaceLocations = (data) => {
-    const clarifaiFaces = data.outputs[0].data.regions;
+  calculateFaceLocation = (data) => {
     const image = document.getElementById("inputimage");
     const width = Number(image.width);
     const height = Number(image.height);
-    return clarifaiFaces.map((clarifaiFace) => ({
-      leftCol: clarifaiFace.region_info.bounding_box.left_col * width,
-      topRow: clarifaiFace.region_info.bounding_box.top_row * height,
-      rightCol: width - clarifaiFace.region_info.bounding_box.right_col * width,
-      bottomRow:
-        height - clarifaiFace.region_info.bounding_box.bottom_row * height,
-    }));
+    return data.outputs[0].data.regions.map((face) => {
+      const clarifaiFace = face.region_info.bounding_box;
+      return {
+        leftCol: clarifaiFace.left_col * width,
+        topRow: clarifaiFace.top_row * height,
+        rightCol: width - clarifaiFace.right_col * width,
+        bottomRow: height - clarifaiFace.bottom_row * height,
+      };
+    });
   };
 
-  displayFaceBoxes = (boxes) => {
+  displayFaceBox = (boxes) => {
     this.setState({ boxes: boxes });
   };
 
@@ -91,8 +92,9 @@ class App extends Component {
             })
             .catch(console.log);
         }
-        this.displayFaceBoxes(this.calculateFaceLocations(response));
-      });
+        this.displayFaceBox(this.calculateFaceLocation(response));
+      })
+      .catch((err) => console.log(err));
   };
 
   onRouteChange = (route) => {
