@@ -42,7 +42,7 @@ class App extends Component {
     });
   };
 
-  calculateFaceLocations = (data) => {
+  calculateFaceLocation = (data) => {
     return data.outputs[0].data.regions.map((face) => {
       const clarifaiFace = face.region_info.bounding_box;
       const image = document.getElementById("inputimage");
@@ -57,7 +57,7 @@ class App extends Component {
     });
   };
 
-  displayFaceBoxes = (boxes) => {
+  displayFaceBox = (boxes) => {
     this.setState({ boxes: boxes });
   };
 
@@ -92,7 +92,7 @@ class App extends Component {
             })
             .catch(console.log);
         }
-        this.displayFaceBoxes(this.calculateFaceLocations(response));
+        this.displayFaceBox(this.calculateFaceLocation(response));
       });
   };
 
