@@ -12,7 +12,7 @@ import Register from "./components/Register/Register";
 const initialState = {
   input: "",
   imageUrl: "",
-  boxes: [],
+  box: {},
   route: "signin",
   isSignedIn: false,
   user: {
