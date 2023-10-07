@@ -46,7 +46,7 @@ class App extends Component {
     const image = document.getElementById("inputimage");
     const width = Number(image.width);
     const height = Number(image.height);
-    return JSON.parse(data, null, 2).outputs[0].data.regions.map((face) => {
+    return data.outputs[0].data.regions.map((face) => {
       const clarifaiFace = face.region_info.bounding_box;
       return {
         leftCol: clarifaiFace.left_col * width,
