@@ -46,7 +46,7 @@ class App extends Component {
     const image = document.getElementById("inputimage");
     const width = Number(image.width);
     const height = Number(image.height);
-    return data.outputs[0].data.regions.map((face) => {
+    return JSON.parse(data, null, 2).outputs[0].data.regions.map((face) => {
       const clarifaiFace = face.region_info.bounding_box;
       return {
         leftCol: clarifaiFace.left_col * width,
@@ -77,24 +77,24 @@ class App extends Component {
       }),
     })
       .then((response) => response.json())
-      .then((response) => {
-        if (response) {
+      .then((result) => {
+        console.log(result);
+        this.displayFaceBox(this.calculateFaceLocation(result));
+        if (result) {
           fetch("https://facerecognitionbrain-api-ral3.onrender.com/image", {
-            method: "put",
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               id: this.state.user.id,
             }),
           })
-            .then((response) => response.json())
+            .then((result) => result.json())
             .then((count) => {
               this.setState(Object.assign(this.state.user, { entries: count }));
-            })
-            .catch(console.log);
+            });
         }
-        this.displayFaceBox(this.calculateFaceLocation(response));
       })
-      .catch((err) => console.log(err));
+      .catch((error) => console.log("error", error));
   };
 
   onRouteChange = (route) => {
