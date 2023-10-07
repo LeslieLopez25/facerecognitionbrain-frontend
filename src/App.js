@@ -77,24 +77,26 @@ class App extends Component {
       }),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        this.displayFaceBox(this.calculateFaceLocation(result));
-        if (result) {
+      .then((response) => {
+        if (response) {
           fetch("https://facerecognitionbrain-api-ral3.onrender.com/image", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            method: "put",
+            headers: {
+              "Content-Type": "application/json",
+            },
             body: JSON.stringify({
               id: this.state.user.id,
             }),
           })
-            .then((result) => result.json())
+            .then((response) => response.json())
             .then((count) => {
               this.setState(Object.assign(this.state.user, { entries: count }));
-            });
+            })
+            .catch(console.log);
         }
+        this.displayFaceBox(this.calculateFaceLocation(response));
       })
-      .catch((error) => console.log("error", error));
+      .catch((err) => console.log(err));
   };
 
   onRouteChange = (route) => {
