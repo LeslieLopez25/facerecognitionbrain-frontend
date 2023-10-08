@@ -68,7 +68,7 @@ class App extends Component {
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.input });
 
-    fetch("https: //facerecognitionbrain-api-ral3.onrender.com/imageurl", {
+    fetch("https://facerecognitionbrain-api-ral3.onrender.com/imageurl", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -80,7 +80,7 @@ class App extends Component {
         console.log(result);
         this.displayFaceBox(this.calculateFaceLocation(result));
         if (result) {
-          fetch("https: //facerecognitionbrain-api-ral3.onrender.com/image", {
+          fetch("https://facerecognitionbrain-api-ral3.onrender.com/image", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
