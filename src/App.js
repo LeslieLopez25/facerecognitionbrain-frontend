@@ -42,12 +42,12 @@ class App extends Component {
     });
   };
 
-  calculateFaceLocations = (data) => {
-    return data.outputs[0].data.regions.map((face) => {
+  calculateFaceLocation = (data) => {
+    const image = document.getElementById("inputimage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return JSON.parse(data, null, 2).outputs[0].data.regions.map((face) => {
       const clarifaiFace = face.region_info.bounding_box;
-      const image = document.getElementById("inputimage");
-      const width = Number(image.width);
-      const height = Number(image.height);
       return {
         leftCol: clarifaiFace.left_col * width,
         topRow: clarifaiFace.top_row * height,
@@ -66,34 +66,34 @@ class App extends Component {
   };
 
   onButtonSubmit = () => {
-    this.setState({
-      imageUrl: this.state.input,
-    });
-    fetch("https://facerecognitionbrain-api-ral3.onrender.com/imageurl", {
-      method: "post",
+    this.setState({ imageUrl: this.state.input });
+
+    fetch("https: //facerecognitionbrain-api-ral3.onrender.com/imageurl", {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         input: this.state.input,
       }),
     })
       .then((response) => response.json())
-      .then((response) => {
-        if (response) {
-          fetch("https://facerecognitionbrain-api-ral3.onrender.com/image", {
-            method: "put",
+      .then((result) => {
+        console.log(result);
+        this.displayFaceBox(this.calculateFaceLocation(result));
+        if (result) {
+          fetch("https: //facerecognitionbrain-api-ral3.onrender.com/image", {
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               id: this.state.user.id,
             }),
           })
-            .then((response) => response.json())
+            .then((result) => result.json())
             .then((count) => {
               this.setState(Object.assign(this.state.user, { entries: count }));
-            })
-            .catch(console.log);
+            });
         }
-        this.displayFaceBoxes(this.calculateFaceLocations(response));
-      });
+      })
+      .catch((error) => console.log("error", error));
   };
 
   onRouteChange = (route) => {
