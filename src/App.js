@@ -110,7 +110,20 @@ class App extends Component {
     const { isSignedIn, imageUrl, route, boxes } = this.state;
     return (
       <div className="App">
-        <ParticlesBg type="thick" bg={true} />
+        <ParticlesBg
+          class="particles-bg-canvas-self"
+          type="thick"
+          bg={{
+            position: "fixed",
+            height: "100%",
+            width: "100%",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            zIndex: -1,
+          }}
+        />
         <Navigation
           isSignedIn={isSignedIn}
           onRouteChange={this.onRouteChange}
