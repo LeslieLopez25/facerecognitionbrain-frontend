@@ -35,6 +35,24 @@ class App extends Component {
     this.state = initialState;
   }
 
+  componentDidMount() {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      this.setState({
+        user: {
+          id: userData.id,
+          name: userData.name,
+          email: userData.email,
+          entries: userData.entries,
+          joined: userData.joined,
+        },
+        isSignedIn: true,
+      });
+    }
+  }
+
   loadUser = (data) => {
     this.setState({
       user: {
@@ -111,6 +129,11 @@ class App extends Component {
     this.setState({ route: route });
   };
 
+  signOut = () => {
+    localStorage.removeItem("user");
+    this.setState(initialState);
+  };
+
   render() {
     const { isSignedIn, imageUrl, route, boxes } = this.state;
 
@@ -134,6 +157,7 @@ class App extends Component {
           <Navigation
             isSignedIn={isSignedIn}
             onRouteChange={this.onRouteChange}
+            signOut={this.signOut}
           />
           {route === "home" ? (
             <div>
