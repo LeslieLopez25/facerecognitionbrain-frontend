@@ -1,8 +1,18 @@
 <h1>Face Recognition Brain :adult:</h1>
 
-<h2>A website that detects faces that you use using the image's url built using React.</h2>
+<h2>An app that detects faces uses the Clarifai API.</h2>
 
-<p>This website is responsive using React. I created this following the web developer boot camp of Andrei Neagoie on Udemy. This project uses frontend and backend with this part being the frontend. I enjoyed building this project. This project used Tachyons, which was the first I've used it to style the website and used an API to detect the images. Certain parts of the coding process were difficult but I definitely learned more about React.</p>
+<p>- Built with React and styled using Tachyons on the frontend for a sleek user experience.
+
+- Powered by Express and Node.js on the backend, with the added security of Bcrypt encryption.
+
+- Data is stored efficiently in a PostgreSQL database, ensuring reliability and scalability.
+
+- Seamlessly deployed on Netlify for the frontend, Render for the backend, and Neon for the database, guaranteeing optimal performance.
+
+- Now enhanced to detect multiple faces, making it more versatile and powerful than ever.
+
+Discover the future of web applications with our feature-rich platform.</p>
 
 ### Link
 
@@ -10,7 +20,7 @@
 
 ### Screenshots
 
-<img src="src/screenshots/img-1.png" width="400"><img src="src/screenshots/img-2.png" width="400">
-<img src="src/screenshots/img-3.png" width="400">
-
-(Backend database no longer in service, hosting sites and database hosting services need to be updated)
+<img src="./src/assets/screenshot/screenshot.png" width="400">
+<img src="./src/assets/screenshot-2/screenshot.png" width="400">
+<img src="./src/assets/screenshot-3/screenshot.png" width="400">
+<img src="./src/assets/screenshot-4/screenshot.png" width="400">
