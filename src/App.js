@@ -1,6 +1,7 @@
 import React, { Component, lazy, Suspense } from "react";
 import ParticlesBg from "particles-bg";
 import "./App.css";
+import Spinner from "./components/Spinner/Spinner";
 
 const FaceRecognition = lazy(() =>
   import("./components/FaceRecognition/FaceRecognition")
@@ -33,14 +34,6 @@ class App extends Component {
   constructor() {
     super();
     this.state = initialState;
-  }
-
-  componentDidMount() {
-    // Check if user data exists in localStorage
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      this.setState({ user, route: "home", isSignedIn: true });
-    }
   }
 
   loadUser = (data) => {
@@ -119,18 +112,6 @@ class App extends Component {
     this.setState({ route: route });
   };
 
-  signOutUser = () => {
-    // Clear user data from localStorage
-    localStorage.removeItem("user");
-
-    // Reset component state and route the user to the signin page
-    this.setState({
-      user: initialState.user,
-      route: "signin",
-      isSignedIn: false,
-    });
-  };
-
   render() {
     const { isSignedIn, imageUrl, route, boxes } = this.state;
 
@@ -150,11 +131,16 @@ class App extends Component {
             zIndex: -1,
           }}
         />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div>
+              <Spinner />
+            </div>
+          }
+        >
           <Navigation
             isSignedIn={isSignedIn}
             onRouteChange={this.onRouteChange}
-            signOutUser={this.signOutUser}
           />
           {route === "home" ? (
             <div>
