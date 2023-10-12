@@ -1,13 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import ParticlesBg from "particles-bg";
-import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
-import Navigation from "./components/Navigation/Navigation";
-import Logo from "./components/Logo/Logo";
-import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
-import Rank from "./components/Rank/Rank";
 import "./App.css";
-import Signin from "./components/Signin/Signin";
-import Register from "./components/Register/Register";
+
+const FaceRecognition = lazy(() =>
+  import("./components/FaceRecognition/FaceRecognition")
+);
+const Navigation = lazy(() => import("./components/Navigation/Navigation"));
+const Logo = lazy(() => import("./components/Logo/Logo"));
+const ImageLinkForm = lazy(() =>
+  import("./components/ImageLinkForm/ImageLinkForm")
+);
+const Rank = lazy(() => import("./components/Rank/Rank"));
+const SignIn = lazy(() => import("./components/Signin/Signin"));
+const Register = lazy(() => import("./components/Register/Register"));
 
 const initialState = {
   input: "",
@@ -108,6 +113,7 @@ class App extends Component {
 
   render() {
     const { isSignedIn, imageUrl, route, boxes } = this.state;
+
     return (
       <div className="App">
         <ParticlesBg
@@ -124,31 +130,36 @@ class App extends Component {
             zIndex: -1,
           }}
         />
-        <Navigation
-          isSignedIn={isSignedIn}
-          onRouteChange={this.onRouteChange}
-        />
-        {route === "home" ? (
-          <div>
-            <Logo />
-            <Rank
-              name={this.state.user.name}
-              entries={this.state.user.entries}
-            />
-            <ImageLinkForm
-              onInputChange={this.onInputChange}
-              onButtonSubmit={this.onButtonSubmit}
-            />
-            <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
-          </div>
-        ) : route === "signin" ? (
-          <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-        ) : (
-          <Register
-            loadUser={this.loadUser}
+        <Suspense fallback={<div>Loading...</div>}>
+          <Navigation
+            isSignedIn={isSignedIn}
             onRouteChange={this.onRouteChange}
           />
-        )}
+          {route === "home" ? (
+            <div>
+              <Logo />
+              <Rank
+                name={this.state.user.name}
+                entries={this.state.user.entries}
+              />
+              <ImageLinkForm
+                onInputChange={this.onInputChange}
+                onButtonSubmit={this.onButtonSubmit}
+              />
+              <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
+            </div>
+          ) : route === "signin" ? (
+            <SignIn
+              loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange}
+            />
+          ) : (
+            <Register
+              loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange}
+            />
+          )}
+        </Suspense>
       </div>
     );
   }
