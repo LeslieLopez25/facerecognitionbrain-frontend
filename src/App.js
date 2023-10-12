@@ -36,20 +36,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      this.setState({
-        user: {
-          id: userData.id,
-          name: userData.name,
-          email: userData.email,
-          entries: userData.entries,
-          joined: userData.joined,
-        },
-        isSignedIn: true,
-      });
+    // Check if user data exists in localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      this.setState({ user, route: "home", isSignedIn: true });
     }
   }
 
@@ -129,9 +119,16 @@ class App extends Component {
     this.setState({ route: route });
   };
 
-  signOut = () => {
+  signOutUser = () => {
+    // Clear user data from localStorage
     localStorage.removeItem("user");
-    this.setState(initialState);
+
+    // Reset component state and route the user to the signin page
+    this.setState({
+      user: initialState.user,
+      route: "signin",
+      isSignedIn: false,
+    });
   };
 
   render() {
@@ -157,7 +154,7 @@ class App extends Component {
           <Navigation
             isSignedIn={isSignedIn}
             onRouteChange={this.onRouteChange}
-            signOut={this.signOut}
+            signOutUser={this.signOutUser}
           />
           {route === "home" ? (
             <div>

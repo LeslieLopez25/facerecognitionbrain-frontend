@@ -29,9 +29,17 @@ class Signin extends React.Component {
       .then((response) => response.json())
       .then((user) => {
         if (user.id) {
+          // Store user data in localStorage
+          localStorage.setItem("user", JSON.stringify(user));
+
+          // Load user data and change route
           this.props.loadUser(user);
           this.props.onRouteChange("home");
         }
+      })
+      .catch((error) => {
+        console.log("Error signing in:", error);
+        // Handle error if necessary
       });
   };
 
