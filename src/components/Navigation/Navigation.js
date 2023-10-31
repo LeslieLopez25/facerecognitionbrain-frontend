@@ -1,4 +1,5 @@
 import React from "react";
+import ProfileIcon from "../Profile/ProfileIcon";
 
 const Navigation = ({ onRouteChange, isSignedIn }) => {
   if (isSignedIn) {
@@ -9,6 +10,7 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
           justifyContent: "flex-end",
         }}
       >
+        <ProfileIcon />
         <p
           onClick={() => onRouteChange("signout")}
           className="f3 link dim white underline pa3 pointer"
