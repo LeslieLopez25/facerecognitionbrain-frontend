@@ -15,6 +15,7 @@ const Rank = lazy(() => import("./components/Rank/Rank"));
 const SignIn = lazy(() => import("./components/Signin/Signin"));
 const Register = lazy(() => import("./components/Register/Register"));
 const Modal = lazy(() => import("./components/Modal/Modal"));
+const Profile = lazy(() => import("./components/Profile/Profile"));
 
 const initialState = {
   input: "",
