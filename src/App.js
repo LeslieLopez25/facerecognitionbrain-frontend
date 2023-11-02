@@ -14,6 +14,7 @@ const ImageLinkForm = lazy(() =>
 const Rank = lazy(() => import("./components/Rank/Rank"));
 const SignIn = lazy(() => import("./components/Signin/Signin"));
 const Register = lazy(() => import("./components/Register/Register"));
+const Modal = lazy(() => import("./components/Modal/Modal"));
 
 const initialState = {
   input: "",
@@ -21,6 +22,7 @@ const initialState = {
   boxes: [],
   route: "signin",
   isSignedIn: false,
+  isProfileOpen: false,
   user: {
     id: "",
     name: "",
@@ -112,8 +114,15 @@ class App extends Component {
     this.setState({ route: route });
   };
 
+  toggleModal = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      isProfileOpen: !prevState.isProfileOpen,
+    }));
+  };
+
   render() {
-    const { isSignedIn, imageUrl, route, boxes } = this.state;
+    const { isSignedIn, imageUrl, route, boxes, isProfileOpen } = this.state;
 
     return (
       <div className="App">
@@ -141,10 +150,20 @@ class App extends Component {
           <Navigation
             isSignedIn={isSignedIn}
             onRouteChange={this.onRouteChange}
+            toggleModal={this.toggleModal}
           />
+          {isProfileOpen && (
+            <Modal>
+              <Profile
+                isProfileOpen={isProfileOpen}
+                toggleModal={this.toggleModal}
+              />
+            </Modal>
+          )}
           {route === "home" ? (
             <div>
               <Logo />
+
               <Rank
                 name={this.state.user.name}
                 entries={this.state.user.entries}
