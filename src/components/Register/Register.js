@@ -23,10 +23,17 @@ class Register extends React.Component {
     this.setState({ password: event.target.value });
   };
 
+  saveAuthTokenInSession = (token) => {
+    sessionStorage.setItem("token", token);
+  };
+
   onSubmitSignIn = () => {
     fetch("https://facerecognitionbrain-api-ral3.onrender.com/register", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("token"),
+      },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
@@ -34,10 +41,31 @@ class Register extends React.Component {
       }),
     })
       .then((response) => response.json())
-      .then((user) => {
-        if (user.id) {
-          this.props.loadUser(user);
-          this.props.onRouteChange("home");
+      .then((data) => {
+        //data contains the id and token from backend
+        console.log(data);
+        if (data.userId && data.success === "true") {
+          this.saveAuthTokenInSession(data.token);
+          fetch(
+            `https://facerecognitionbrain-api-ral3.onrender.com/profile/${data.userId}`,
+            {
+              method: "get",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: data.token,
+              },
+            }
+          )
+            .then((response) => response.json())
+            .then((user) => {
+              if (user && user.email) {
+                this.props.loadUser(user);
+                this.props.onRouteChange("home");
+              }
+            })
+            .catch(console.log);
+        } else {
+          alert("Incorrect form of submission");
         }
       });
   };
