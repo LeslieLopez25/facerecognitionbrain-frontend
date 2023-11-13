@@ -79,7 +79,6 @@ class App extends Component {
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("token"),
       },
       body: JSON.stringify({
         input: this.state.input,
