@@ -18,10 +18,6 @@ class Signin extends React.Component {
     this.setState({ signInPassword: event.target.value });
   };
 
-  saveAuthTokenInSession = (token) => {
-    sessionStorage.setItem("token", token);
-  };
-
   onSubmitSignIn = () => {
     fetch("https://facerecognitionbrain-api-ral3.onrender.com/signin", {
       method: "post",
@@ -31,30 +27,14 @@ class Signin extends React.Component {
         password: this.state.signInPassword,
       }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.userId && data.success === true) {
-          this.saveAuthTokenInSession(data.token);
-          fetch(
-            `https://facerecognitionbrain-api-ral3.onrender.com/profile/${data.id}`,
-            {
-              method: "get",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: data.token,
-              },
-            }
-          )
-            .then((resp) => resp.json())
-            .then((user) => {
-              if (user && user.email) {
-                this.props.loadUser(user);
-                this.onRouteChange("home");
-              }
-            })
-            .catch(console.log);
+      .then((resp) => resp.json())
+      .then((user) => {
+        if (user && user.email) {
+          this.props.loadUser(user);
+          this.onRouteChange("home");
         }
-      });
+      })
+      .catch(console.log);
   };
 
   render() {

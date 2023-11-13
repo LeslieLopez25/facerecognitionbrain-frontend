@@ -1,7 +1,6 @@
 import React from "react";
-import ProfileIcon from "../Profile/ProfileIcon";
 
-const Navigation = ({ onRouteChange, isSignedIn, toggleModal }) => {
+const Navigation = ({ onRouteChange, isSignedIn }) => {
   if (isSignedIn) {
     return (
       <nav
@@ -9,9 +8,7 @@ const Navigation = ({ onRouteChange, isSignedIn, toggleModal }) => {
           display: "flex",
           justifyContent: "flex-end",
         }}
-      >
-        <ProfileIcon onRouteChange={onRouteChange} toggleModal={toggleModal} />
-      </nav>
+      ></nav>
     );
   } else {
     return (

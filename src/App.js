@@ -14,8 +14,6 @@ const ImageLinkForm = lazy(() =>
 const Rank = lazy(() => import("./components/Rank/Rank"));
 const SignIn = lazy(() => import("./components/Signin/Signin"));
 const Register = lazy(() => import("./components/Register/Register"));
-const Modal = lazy(() => import("./components/Modal/Modal"));
-const Profile = lazy(() => import("./components/Profile/Profile"));
 
 const initialState = {
   input: "",
@@ -23,15 +21,12 @@ const initialState = {
   boxes: [],
   route: "signin",
   isSignedIn: false,
-  isProfileOpen: false,
   user: {
     id: "",
     name: "",
     email: "",
     entries: 0,
     joined: "",
-    pet: "",
-    age: "",
   },
 };
 
@@ -39,42 +34,6 @@ class App extends Component {
   constructor() {
     super();
     this.state = initialState;
-  }
-
-  componentDidMount() {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      fetch("https://facerecognitionbrain-api-ral3.onrender.com/signin", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          if (data && data.id) {
-            fetch(
-              `https://facerecognitionbrain-api-ral3.onrender.com/profile/${data.id}`,
-              {
-                method: "get",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: token,
-                },
-              }
-            )
-              .then((resp) => resp.json())
-              .then((user) => {
-                if (user && user.email) {
-                  this.loadUser(user);
-                  this.onRouteChange("home");
-                }
-              });
-          }
-        })
-        .catch(console.log);
-    }
   }
 
   loadUser = (data) => {
@@ -85,34 +44,27 @@ class App extends Component {
         email: data.email,
         entries: data.entries,
         joined: data.joined,
-        age: data.age,
-        pet: data.pet,
       },
     });
   };
 
   calculateFaceLocation = (data) => {
-    if (data && data.outputs) {
-      const image = document.getElementById("inputimage");
-      const width = Number(image.width);
-      const height = Number(image.height);
-      return data.outputs[0].data.regions.map((face) => {
-        const clarifaiFace = face.region_info.bounding_box;
-        return {
-          leftCol: clarifaiFace.left_col * width,
-          topRow: clarifaiFace.top_row * height,
-          rightCol: width - clarifaiFace.right_col * width,
-          bottomRow: height - clarifaiFace.bottom_row * height,
-        };
-      });
-    }
-    return;
+    const image = document.getElementById("inputimage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return data.outputs[0].data.regions.map((face) => {
+      const clarifaiFace = face.region_info.bounding_box;
+      return {
+        leftCol: clarifaiFace.left_col * width,
+        topRow: clarifaiFace.top_row * height,
+        rightCol: width - clarifaiFace.right_col * width,
+        bottomRow: height - clarifaiFace.bottom_row * height,
+      };
+    });
   };
 
   displayFaceBox = (boxes) => {
-    if (boxes) {
-      this.setState({ boxes: boxes });
-    }
+    this.setState({ boxes: boxes });
   };
 
   onInputChange = (event) => {
@@ -140,7 +92,6 @@ class App extends Component {
             method: "put",
             headers: {
               "Content-Type": "application/json",
-              Authorization: sessionStorage.getItem("token"),
             },
             body: JSON.stringify({
               id: this.state.user.id,
@@ -157,20 +108,9 @@ class App extends Component {
       .catch((err) => console.log(err));
   };
 
-  removeSessionToken = () => {
-    window.sessionStorage.removeItem("token");
-  };
-
   onRouteChange = (route) => {
     if (route === "signout") {
-      fetch("https://facerecognitionbrain-api-ral3.onrender.com/signout", {
-        method: "delete",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: window.sessionStorage.getItem("token"),
-        },
-      });
-      this.removeSessionToken();
+      // this.setState(initialState);
       return this.setState(initialState);
     } else if (route === "home") {
       this.setState({ isSignedIn: true });
@@ -178,16 +118,8 @@ class App extends Component {
     this.setState({ route: route });
   };
 
-  toggleModal = () => {
-    this.setState((prevState) => ({
-      ...prevState,
-      isProfileOpen: !prevState.isProfileOpen,
-    }));
-  };
-
   render() {
-    const { isSignedIn, imageUrl, route, boxes, isProfileOpen, user } =
-      this.state;
+    const { isSignedIn, imageUrl, route, boxes } = this.state;
 
     return (
       <div className="App">
@@ -215,22 +147,10 @@ class App extends Component {
           <Navigation
             isSignedIn={isSignedIn}
             onRouteChange={this.onRouteChange}
-            toggleModal={this.toggleModal}
           />
-          {isProfileOpen && (
-            <Modal>
-              <Profile
-                isProfileOpen={isProfileOpen}
-                toggleModal={this.toggleModal}
-                loadUser={this.loadUser}
-                user={user}
-              />
-            </Modal>
-          )}
           {route === "home" ? (
             <div>
               <Logo />
-
               <Rank
                 name={this.state.user.name}
                 entries={this.state.user.entries}
