@@ -36,6 +36,15 @@ class App extends Component {
     this.state = initialState;
   }
 
+  componentDidMount() {
+    // Check if there is a valid session
+    const userSession = JSON.parse(sessionStorage.getItem("userSession"));
+    if (userSession && userSession.expiresAt > Date.now()) {
+      this.loadUser(userSession.user);
+      this.setState({ isSignedIn: true });
+    }
+  }
+
   loadUser = (data) => {
     this.setState({
       user: {
@@ -103,6 +112,7 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if (route === "signout") {
+      sessionStorage.removeItem("userSession");
       this.setState(initialState);
     } else if (route === "home") {
       this.setState({ isSignedIn: true });

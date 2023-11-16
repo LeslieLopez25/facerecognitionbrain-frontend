@@ -29,6 +29,10 @@ class Signin extends React.Component {
       .then((response) => response.json())
       .then((user) => {
         if (user.id) {
+          const expiresAt = Date.now() + 30 * 60 * 1000; // 30 minutes
+          const userSession = { user, expiresAt };
+          sessionStorage.setItem("userSession", JSON.stringify(userSession));
+
           this.props.loadUser(user);
           this.props.onRouteChange("home");
         }
