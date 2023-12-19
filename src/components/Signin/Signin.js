@@ -7,7 +7,6 @@ class Signin extends React.Component {
     this.state = {
       signInEmail: "",
       signInPassword: "",
-      loading: false,
     };
   }
 
@@ -20,7 +19,6 @@ class Signin extends React.Component {
   };
 
   onSubmitSignIn = () => {
-    this.setState({ loading: true });
     fetch("https://facerecognitionbrain-api-ral3.onrender.com/signin", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -37,7 +35,6 @@ class Signin extends React.Component {
         }
       })
       .catch(console.log);
-    this.setState({ loading: false });
   };
 
   render() {
@@ -45,7 +42,7 @@ class Signin extends React.Component {
 
     return (
       <LoadingScreen
-        loading={this.state.loading}
+        loading={true}
         bgColor="transparent"
         spinnerColor="#ffffff"
         textColor="#ffffff"
