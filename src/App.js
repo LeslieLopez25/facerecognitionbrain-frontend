@@ -1,7 +1,6 @@
 import React, { Component, lazy, Suspense } from "react";
 import ParticlesBg from "particles-bg";
 import "./App.css";
-import Spinner from "./components/Spinner/Spinner";
 
 const FaceRecognition = lazy(() =>
   import("./components/FaceRecognition/FaceRecognition")
@@ -129,42 +128,31 @@ class App extends Component {
             zIndex: -1,
           }}
         />
-        <Suspense
-          fallback={
-            <div>
-              <Spinner />
-            </div>
-          }
-        >
-          <Navigation
-            isSignedIn={isSignedIn}
+        <Navigation
+          isSignedIn={isSignedIn}
+          onRouteChange={this.onRouteChange}
+        />
+        {route === "home" ? (
+          <div>
+            <Logo />
+            <Rank
+              name={this.state.user.name}
+              entries={this.state.user.entries}
+            />
+            <ImageLinkForm
+              onInputChange={this.onInputChange}
+              onButtonSubmit={this.onButtonSubmit}
+            />
+            <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
+          </div>
+        ) : route === "signin" ? (
+          <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+        ) : (
+          <Register
+            loadUser={this.loadUser}
             onRouteChange={this.onRouteChange}
           />
-          {route === "home" ? (
-            <div>
-              <Logo />
-              <Rank
-                name={this.state.user.name}
-                entries={this.state.user.entries}
-              />
-              <ImageLinkForm
-                onInputChange={this.onInputChange}
-                onButtonSubmit={this.onButtonSubmit}
-              />
-              <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
-            </div>
-          ) : route === "signin" ? (
-            <SignIn
-              loadUser={this.loadUser}
-              onRouteChange={this.onRouteChange}
-            />
-          ) : (
-            <Register
-              loadUser={this.loadUser}
-              onRouteChange={this.onRouteChange}
-            />
-          )}
-        </Suspense>
+        )}
       </div>
     );
   }
