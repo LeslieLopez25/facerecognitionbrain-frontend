@@ -1,6 +1,7 @@
-import React, { Component, lazy } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import ParticlesBg from "particles-bg";
 import "./App.css";
+import Spinner from "./components/Spinner/Spinner";
 
 const FaceRecognition = lazy(() =>
   import("./components/FaceRecognition/FaceRecognition")
@@ -73,7 +74,7 @@ class App extends Component {
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.input });
     fetch("https://facerecognitionbrain-api-ral3.onrender.com/imageurl", {
-      method: "POST",
+      method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         input: this.state.input,
@@ -83,7 +84,7 @@ class App extends Component {
       .then((response) => {
         if (response) {
           fetch("https://facerecognitionbrain-api-ral3.onrender.com/image", {
-            method: "PUT",
+            method: "put",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               id: this.state.user.id,
@@ -128,31 +129,42 @@ class App extends Component {
             zIndex: -1,
           }}
         />
-        <Navigation
-          isSignedIn={isSignedIn}
-          onRouteChange={this.onRouteChange}
-        />
-        {route === "home" ? (
-          <div>
-            <Logo />
-            <Rank
-              name={this.state.user.name}
-              entries={this.state.user.entries}
-            />
-            <ImageLinkForm
-              onInputChange={this.onInputChange}
-              onButtonSubmit={this.onButtonSubmit}
-            />
-            <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
-          </div>
-        ) : route === "signin" ? (
-          <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-        ) : (
-          <Register
-            loadUser={this.loadUser}
+        <Suspense
+          fallback={
+            <div>
+              <Spinner />
+            </div>
+          }
+        >
+          <Navigation
+            isSignedIn={isSignedIn}
             onRouteChange={this.onRouteChange}
           />
-        )}
+          {route === "home" ? (
+            <div>
+              <Logo />
+              <Rank
+                name={this.state.user.name}
+                entries={this.state.user.entries}
+              />
+              <ImageLinkForm
+                onInputChange={this.onInputChange}
+                onButtonSubmit={this.onButtonSubmit}
+              />
+              <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
+            </div>
+          ) : route === "signin" ? (
+            <SignIn
+              loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange}
+            />
+          ) : (
+            <Register
+              loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange}
+            />
+          )}
+        </Suspense>
       </div>
     );
   }
