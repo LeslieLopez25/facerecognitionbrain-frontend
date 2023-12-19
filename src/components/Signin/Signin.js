@@ -22,7 +22,7 @@ class Signin extends React.Component {
   onSubmitSignIn = () => {
     this.setState({ loading: true });
     fetch("https://facerecognitionbrain-api-ral3.onrender.com/signin", {
-      method: "post",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: this.state.signInEmail,
@@ -57,7 +57,7 @@ class Signin extends React.Component {
           <main className="pa4 white">
             <div className="measure">
               <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                <legend className="f1 fw6 ph0 mh0 center">Sign In</legend>
+                <legend className="f1 fw6 ph0 mh0 center">Log In</legend>
                 <div className="mt3">
                   <label className="db fw6 lh-copy f6" htmlFor="email-address">
                     Email
