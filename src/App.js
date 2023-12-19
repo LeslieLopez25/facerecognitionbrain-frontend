@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense } from "react";
+import React, { Component, lazy } from "react";
 import ParticlesBg from "particles-bg";
 import "./App.css";
 
