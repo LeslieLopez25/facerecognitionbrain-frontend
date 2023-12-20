@@ -21,7 +21,6 @@ class Signin extends React.Component {
 
   onSubmitSignIn = () => {
     this.setState({ loading: true });
-    console.log("Before fetch");
     fetch("https://facerecognitionbrain-api-ral3.onrender.com/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -30,22 +29,15 @@ class Signin extends React.Component {
         password: this.state.signInPassword,
       }),
     })
-      .then((response) => {
-        console.log("After fetch response");
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((user) => {
-        console.log("After parsing JSON");
         if (user.id) {
           this.props.loadUser(user);
           this.props.onRouteChange("home");
         }
       })
-      .catch((error) => {
-        console.error("Error during fetch:", error);
-      })
+      .catch(console.log)
       .finally(() => {
-        console.log("Finally block");
         this.setState({ loading: false });
       });
   };
