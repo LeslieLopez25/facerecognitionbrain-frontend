@@ -21,6 +21,7 @@ class Signin extends React.Component {
 
   onSubmitSignIn = () => {
     this.setState({ loading: true });
+    console.log("Before fetch");
     fetch("https://facerecognitionbrain-api-ral3.onrender.com/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -29,15 +30,22 @@ class Signin extends React.Component {
         password: this.state.signInPassword,
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log("After fetch response");
+        return response.json();
+      })
       .then((user) => {
+        console.log("After parsing JSON");
         if (user.id) {
           this.props.loadUser(user);
           this.props.onRouteChange("home");
         }
       })
-      .catch(console.log)
+      .catch((error) => {
+        console.error("Error during fetch:", error);
+      })
       .finally(() => {
+        console.log("Finally block");
         this.setState({ loading: false });
       });
   };
@@ -90,7 +98,7 @@ class Signin extends React.Component {
                   onClick={this.onSubmitSignIn}
                   className="b ph3 pv2 input-reset ba b--black white bg-transparent grow pointer f6 dib"
                   type="submit"
-                  value="Sign In"
+                  value="Log In"
                 />
               </div>
               <div className="lh-copy mt3">
