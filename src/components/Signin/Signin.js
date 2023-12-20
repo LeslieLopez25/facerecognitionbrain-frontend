@@ -36,8 +36,10 @@ class Signin extends React.Component {
           this.props.onRouteChange("home");
         }
       })
-      .catch(console.log);
-    this.setState({ loading: false });
+      .catch(console.log)
+      .finally(() => {
+        this.setState({ loading: false });
+      });
   };
 
   render() {
