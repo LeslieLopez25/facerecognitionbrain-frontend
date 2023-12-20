@@ -2,7 +2,9 @@
 
 <h2>An app that detects faces uses the Clarifai API.</h2>
 
-<p>- Built with React and styled using Tachyons on the frontend for a sleek user experience.
+<p>
+
+- Built with React and styled using Tachyons on the frontend for a sleek user experience.
 
 - Powered by Express and Node.js on the backend, with the added security of Bcrypt encryption.
 
