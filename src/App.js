@@ -2,17 +2,13 @@ import React, { Component, lazy } from "react";
 import ParticlesBg from "particles-bg";
 import "./App.css";
 
-const FaceRecognition = lazy(() =>
-  import("./components/FaceRecognition/FaceRecognition")
-);
-const Navigation = lazy(() => import("./components/Navigation/Navigation"));
-const Logo = lazy(() => import("./components/Logo/Logo"));
-const ImageLinkForm = lazy(() =>
-  import("./components/ImageLinkForm/ImageLinkForm")
-);
-const Rank = lazy(() => import("./components/Rank/Rank"));
-const SignIn = lazy(() => import("./components/Signin/Signin"));
-const Register = lazy(() => import("./components/Register/Register"));
+import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
+import Navigation from "./components/Navigation/Navigation";
+import Logo from "./components/Logo/Logo";
+import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
+import Rank from "./components/Rank/Rank";
+import SignIn from "./components/Signin/Signin";
+import Register from "./components/Register/Register";
 
 const initialState = {
   input: "",
