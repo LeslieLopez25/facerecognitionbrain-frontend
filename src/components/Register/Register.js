@@ -24,30 +24,35 @@ class Register extends React.Component {
     this.setState({ password: event.target.value });
   };
 
-  onSubmitSignIn = () => {
+  onSubmitSignIn = async () => {
     this.setState({ loading: true });
-    fetch("https://facerecognitionbrain-api-ral3.onrender.com/register", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        name: this.state.name,
-      }),
-    })
-      .then((response) => response.json())
-      .then((user) => {
-        if (user.id) {
-          this.props.loadUser(user);
-          this.props.onRouteChange("home");
+    try {
+      const response = await fetch(
+        "https://facerecognitionbrain-api-ral3.onrender.com/register",
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: this.state.email,
+            password: this.state.password,
+            name: this.state.name,
+          }),
         }
-      })
-      .catch(console.log)
-      .finally(() => {
-        this.setState({ loading: false });
-      });
+      );
+
+      const user = await response.json();
+
+      if (user.id) {
+        this.props.loadUser(user);
+        this.props.onRouteChange("home");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
