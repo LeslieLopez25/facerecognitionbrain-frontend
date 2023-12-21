@@ -1,4 +1,4 @@
-import React, { Component, lazy } from "react";
+import React, { Component, Suspense, lazy } from "react";
 import ParticlesBg from "particles-bg";
 import "./App.css";
 
@@ -128,31 +128,36 @@ class App extends Component {
             zIndex: -1,
           }}
         />
-        <Navigation
-          isSignedIn={isSignedIn}
-          onRouteChange={this.onRouteChange}
-        />
-        {route === "home" ? (
-          <div>
-            <Logo />
-            <Rank
-              name={this.state.user.name}
-              entries={this.state.user.entries}
-            />
-            <ImageLinkForm
-              onInputChange={this.onInputChange}
-              onButtonSubmit={this.onButtonSubmit}
-            />
-            <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
-          </div>
-        ) : route === "signin" ? (
-          <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-        ) : (
-          <Register
-            loadUser={this.loadUser}
+        <Suspense fallback={<div>Loading...</div>}>
+          <Navigation
+            isSignedIn={isSignedIn}
             onRouteChange={this.onRouteChange}
           />
-        )}
+          {route === "home" ? (
+            <div>
+              <Logo />
+              <Rank
+                name={this.state.user.name}
+                entries={this.state.user.entries}
+              />
+              <ImageLinkForm
+                onInputChange={this.onInputChange}
+                onButtonSubmit={this.onButtonSubmit}
+              />
+              <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
+            </div>
+          ) : route === "signin" ? (
+            <SignIn
+              loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange}
+            />
+          ) : (
+            <Register
+              loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange}
+            />
+          )}
+        </Suspense>
       </div>
     );
   }
