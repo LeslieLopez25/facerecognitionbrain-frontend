@@ -1,5 +1,7 @@
 import React, { Component, Suspense, lazy } from "react";
 import ParticlesBg from "particles-bg";
+import LoadingScreen from "react-loading-screen";
+
 import "./App.css";
 
 const FaceRecognition = lazy(() =>
@@ -128,7 +130,19 @@ class App extends Component {
             zIndex: -1,
           }}
         />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <LoadingScreen
+              loading={true}
+              bgColor="transparent"
+              spinnerColor="#ffffff"
+              textColor="#ffffff"
+              logoSrc=""
+              text="Loading..."
+              className="text-xl w-fit mx-auto backdrop-blur-sm"
+            />
+          }
+        >
           <Navigation
             isSignedIn={isSignedIn}
             onRouteChange={this.onRouteChange}
