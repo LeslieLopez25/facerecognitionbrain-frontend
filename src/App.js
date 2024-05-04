@@ -1,4 +1,4 @@
-import React, { Component, Suspense, lazy } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import ParticlesBg from "particles-bg";
 import LoadingScreen from "react-loading-screen";
 
@@ -31,14 +31,12 @@ const initialState = {
   },
 };
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = initialState;
-  }
+export default function App() {
+  const [state, setState] = useState(initialState);
 
-  loadUser = (data) => {
-    this.setState({
+  const loadUser = (data) => {
+    setState((prevState) => ({
+      ...prevState,
       user: {
         id: data.id,
         name: data.name,
@@ -46,10 +44,10 @@ class App extends Component {
         entries: data.entries,
         joined: data.joined,
       },
-    });
+    }));
   };
 
-  calculateFaceLocation = (data) => {
+  const calculateFaceLocation = (data) => {
     const image = document.getElementById("inputimage");
     const width = Number(image.width);
     const height = Number(image.height);
@@ -64,21 +62,24 @@ class App extends Component {
     });
   };
 
-  displayFaceBox = (boxes) => {
-    this.setState({ boxes: boxes });
+  const displayFaceBox = (boxes) => {
+    setState((prevState) => ({ boxes: boxes }));
   };
 
-  onInputChange = (event) => {
-    this.setState({ input: event.target.value });
+  const onInputChange = (event) => {
+    setState((prevState) => ({ input: event.target.value }));
   };
 
-  onButtonSubmit = () => {
-    this.setState({ imageUrl: this.state.input });
+  const onButtonSubmit = () => {
+    setState((prevState) => ({
+      ...prevState,
+      imageUrl: prevState.input,
+    }));
     fetch("https://facerecognitionbrain-api-ral3.onrender.com/imageurl", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        input: this.state.input,
+        input: state.input,
       }),
     })
       .then((response) => response.json())
@@ -88,93 +89,83 @@ class App extends Component {
             method: "put",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              id: this.state.user.id,
+              id: state.user.id,
             }),
           })
             .then((response) => response.json())
             .then((count) => {
-              this.setState(Object.assign(this.state.user, { entries: count }));
+              setState((prevState) => ({
+                ...prevState,
+                user: {
+                  ...prevState.user,
+                  entries: count,
+                },
+              }));
             })
             .catch(console.log);
         }
-        this.displayFaceBox(this.calculateFaceLocation(response));
+        displayFaceBox(calculateFaceLocation(response));
       })
       .catch((err) => console.log(err));
   };
 
-  onRouteChange = (route) => {
+  const onRouteChange = (route) => {
     if (route === "signout") {
-      this.setState(initialState);
+      setState(initialState);
     } else if (route === "home") {
-      this.setState({ isSignedIn: true });
+      setState((prevState) => ({ ...prevState, isSignedIn: true }));
     }
-    this.setState({ route: route });
+    setState((prevState) => ({ ...prevState, route: route }));
   };
 
-  render() {
-    const { isSignedIn, imageUrl, route, boxes } = this.state;
+  const { isSignedIn, imageUrl, route, boxes } = state;
 
-    return (
-      <div className="App">
-        <ParticlesBg
-          class="particles-bg-canvas-self"
-          type="thick"
-          bg={{
-            position: "fixed",
-            height: "100%",
-            width: "100%",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            zIndex: -1,
-          }}
-        />
-        <Suspense
-          fallback={
-            <LoadingScreen
-              loading={true}
-              bgColor="transparent"
-              spinnerColor="#ffffff"
-              textColor="#ffffff"
-              logoSrc=""
-              text="Loading..."
-              className="text-xl w-fit mx-auto backdrop-blur-sm"
-            />
-          }
-        >
-          <Navigation
-            isSignedIn={isSignedIn}
-            onRouteChange={this.onRouteChange}
+  return (
+    <div className="App">
+      <ParticlesBg
+        class="particles-bg-canvas-self"
+        type="thick"
+        bg={{
+          position: "fixed",
+          height: "100%",
+          width: "100%",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          zIndex: -1,
+        }}
+      />
+      <Suspense
+        fallback={
+          <LoadingScreen
+            loading={true}
+            bgColor="transparent"
+            spinnerColor="#ffffff"
+            textColor="#ffffff"
+            logoSrc=""
+            text="Loading..."
+            className="text-xl w-fit mx-auto backdrop-blur-sm"
           />
-          {route === "home" ? (
-            <div>
-              <Logo />
-              <Rank
-                name={this.state.user.name}
-                entries={this.state.user.entries}
-              />
-              <ImageLinkForm
-                onInputChange={this.onInputChange}
-                onButtonSubmit={this.onButtonSubmit}
-              />
-              <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
-            </div>
-          ) : route === "signin" ? (
-            <SignIn
-              loadUser={this.loadUser}
-              onRouteChange={this.onRouteChange}
+        }
+      >
+        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
+        {route === "home" ? (
+          <div>
+            <Logo />
+            <Rank name={state.user.name} entries={state.user.entries} />
+            <ImageLinkForm
+              onInputChange={onInputChange}
+              onButtonSubmit={onButtonSubmit}
             />
-          ) : (
-            <Register
-              loadUser={this.loadUser}
-              onRouteChange={this.onRouteChange}
-            />
-          )}
-        </Suspense>
-      </div>
-    );
-  }
+            <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
+          </div>
+        ) : route === "signin" ? (
+          <SignIn loadUser={loadUser} onRouteChange={onRouteChange} />
+        ) : (
+          <Register loadUser={loadUser} onRouteChange={onRouteChange} />
+        )}
+      </Suspense>
+    </div>
+  );
 }
-
-export default App;
