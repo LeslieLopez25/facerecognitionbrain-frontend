@@ -4,20 +4,17 @@ import "./ImageLinkForm.css";
 export default function ImageLinkForm({ onInputChange, onButtonSubmit }) {
   return (
     <div>
-      <p className="f3 white">
+      <p className="image-link-form-text">
         {"This Magic Brain will detect faces in your pictures. Give it a try."}
       </p>
-      <div className="center">
-        <div className="form center pa4 br3 shadow-5">
+      <div className="image-link-form-container">
+        <div className="image-link-form-input-container form">
           <input
-            className="f4 pa2 w-70 center"
+            className="image-link-form-input"
             type="text"
             onChange={onInputChange}
           />
-          <button
-            className="w-30 grow f4 link ph3 pv2 dib white bg-navy"
-            onClick={onButtonSubmit}
-          >
+          <button className="image-link-form-button" onClick={onButtonSubmit}>
             Detect
           </button>
         </div>
