@@ -1,6 +1,6 @@
 import React from "react";
 
-const Navigation = ({ onRouteChange, isSignedIn }) => {
+export default function Navigation({ onRouteChange, isSignedIn }) {
   if (isSignedIn) {
     return (
       <nav
@@ -35,6 +35,4 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
       </nav>
     );
   }
-};
-
-export default Navigation;
+}

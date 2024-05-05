@@ -33,6 +33,7 @@ const initialState = {
 
 export default function App() {
   const [state, setState] = useState(initialState);
+  const [loadingBoxes, setLoadingBoxes] = useState(false);
 
   const loadUser = (data) => {
     setState((prevState) => ({
@@ -63,11 +64,12 @@ export default function App() {
   };
 
   const displayFaceBox = (boxes) => {
-    setState((prevState) => ({ boxes: boxes }));
+    setState((prevState) => ({ ...prevState, boxes: boxes }));
+    setLoadingBoxes(false); // Set loadingBoxes to false after boxes are populated
   };
 
   const onInputChange = (event) => {
-    setState((prevState) => ({ input: event.target.value }));
+    setState((prevState) => ({ ...prevState, input: event.target.value }));
   };
 
   const onButtonSubmit = () => {
@@ -75,6 +77,7 @@ export default function App() {
       ...prevState,
       imageUrl: prevState.input,
     }));
+    setLoadingBoxes(true); // Set loadingBoxes to true when fetching data
     fetch("https://facerecognitionbrain-api-ral3.onrender.com/imageurl", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -158,7 +161,19 @@ export default function App() {
               onInputChange={onInputChange}
               onButtonSubmit={onButtonSubmit}
             />
-            <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
+            {loadingBoxes ? ( // Conditionally render FaceRecognition only when boxes are available
+              <LoadingScreen
+                loading={true}
+                bgColor="transparent"
+                spinnerColor="#ffffff"
+                textColor="#ffffff"
+                logoSrc=""
+                text="Loading Boxes..."
+                className="text-xl w-fit mx-auto backdrop-blur-sm"
+              />
+            ) : (
+              <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
+            )}
           </div>
         ) : route === "signin" ? (
           <SignIn loadUser={loadUser} onRouteChange={onRouteChange} />

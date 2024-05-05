@@ -1,7 +1,7 @@
 import React from "react";
 import "./ImageLinkForm.css";
 
-const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
+export default function ImageLinkForm({ onInputChange, onButtonSubmit }) {
   return (
     <div>
       <p className="f3 white">
@@ -24,6 +24,4 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
       </div>
     </div>
   );
-};
-
-export default ImageLinkForm;
+}
